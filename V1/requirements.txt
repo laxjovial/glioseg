@@ -3,4 +3,8 @@ monai
 torchio
 numpy
 matplotlib
-streamlit
+fastapi
+uvicorn
+pymongo
+python-multipart
+motor
