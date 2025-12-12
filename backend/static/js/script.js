@@ -411,28 +411,15 @@ function displaySegmentationResults(result) {
 }
 
 function loadSliceImages(mriPaths, overlayPaths) {
-  // Convert absolute paths to relative web paths
-  currentState.slices = mriPaths.map((path) => {
-    if (path.includes("static/outputs")) {
-      return "/" + path.split("static/outputs")[1].replace(/\\/g, "/");
-    } else {
-      return "/static/outputs/" + path.split("outputs")[1].replace(/\\/g, "/");
-    }
-  });
-
-  currentState.overlays = overlayPaths.map((path) => {
-    if (path.includes("static/outputs")) {
-      return "/" + path.split("static/outputs")[1].replace(/\\/g, "/");
-    } else {
-      return "/static/outputs/" + path.split("outputs")[1].replace(/\\/g, "/");
-    }
-  });
+  // Assume backend paths are already proper /static/... URLs
+  currentState.slices = mriPaths.map((p) => p.replace(/\\/g, "/"));
+  currentState.overlays = overlayPaths.map((p) => p.replace(/\\/g, "/"));
 
   currentState.currentSliceIndex = 0;
 
-  if (mriPaths.length > 0) {
-    elements.numSlicesLabel.textContent = mriPaths.length;
-    elements.sliceSlider.max = mriPaths.length - 1;
+  if (currentState.slices.length > 0) {
+    elements.numSlicesLabel.textContent = currentState.slices.length;
+    elements.sliceSlider.max = currentState.slices.length - 1;
     elements.sliceSlider.value = 0;
     elements.sliceSlider.disabled = false;
 
@@ -440,6 +427,7 @@ function loadSliceImages(mriPaths, overlayPaths) {
     elements.placeholderText.classList.add("d-none");
   }
 }
+
 
 function updateSliceDisplay() {
   const sliceIndex = currentState.currentSliceIndex;
