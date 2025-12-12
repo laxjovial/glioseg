@@ -502,12 +502,17 @@ async def segment_scan(patient_id: str, scan_id: str, radiologist_notes: str = F
         confidence_score = 85.0  # Placeholder - should be calculated from model
 
         result_id = str(uuid.uuid4())
+        
+        def to_static_url(path: str):
+            rel_path = os.path.relpath(path, "static")  # path relative to 'static' folder
+            return f"/static/{rel_path.replace(os.sep, '/')}"
+        
         segmentation_result = {
             "scan_id": scan_id,
             "result_id": result_id,
-            "mask_path": mask_path,
-            "mri_slice_paths": [path.replace('\\', '/') for path in mri_slice_paths],  # Normalize paths
-            "overlay_slice_paths": [path.replace('\\', '/') for path in overlay_slice_paths],  # Normalize paths
+            "mask_path": mask_path,  # optional: could also convert to URL if needed
+            "mri_slice_paths": [to_static_url(p) for p in mri_slice_paths],
+            "overlay_slice_paths": [to_static_url(p) for p in overlay_slice_paths],
             "tumor_volume": tumor_volume,
             "confidence_score": confidence_score,
             "processing_timestamp": datetime.now(),
