@@ -57,7 +57,7 @@ class PatientCreate(BaseModel):
     patient_id: str
     name: str
     age: Optional[int] = None
-    sex: Optional[str] = Field(None, regex="^(M|F|Male|Female|Other)$")
+    sex: Optional[str] = Field(None, pattern="^(M|F|Male|Female|Other)$")
     email: Optional[EmailStr] = None
     phone: Optional[str] = None
     medical_record_number: Optional[str] = None
@@ -68,7 +68,7 @@ class PatientCreate(BaseModel):
 class PatientUpdate(BaseModel):
     name: Optional[str] = None
     age: Optional[int] = None
-    sex: Optional[str] = Field(None, regex="^(M|F|Male|Female|Other)$")
+    sex: Optional[str] = Field(None, pattern="^(M|F|Male|Female|Other)$")
     email: Optional[EmailStr] = None
     phone: Optional[str] = None
     medical_record_number: Optional[str] = None
